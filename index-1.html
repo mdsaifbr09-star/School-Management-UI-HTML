@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | Al-Falah Public School</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Left sidebar menu -->
+  <div class="sidebar">
+    <div class="brand">
+      <div class="logo">A</div>
+      <div><h2>Al-Falah Public School</h2><p>Management Portal</p></div>
+    </div>
+    <a href="index.html" class="active"><span>🏠</span><span>Dashboard</span></a>
+    <a href="students.html"><span>🎓</span><span>Students</span></a>
+    <a href="attendance.html"><span>✅</span><span>Attendance</span></a>
+    <a href="fees.html"><span>💰</span><span>Fees</span></a>
+    <a href="teachers.html"><span>👨‍🏫</span><span>Teachers</span></a>
+    <a href="timetable.html"><span>🗓️</span><span>Timetable</span></a>
+    <div class="year"><b>Academic year 2026-27</b>Term 2 · Week 6</div>
+  </div>
+
+  <!-- Main content area -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <h1>Dashboard</h1>
+        <p class="school">Al-Falah Public School</p>
+      </div>
+      <div class="user"><span class="av">MS</span>Md Saif · Admin</div>
+    </div>
+
+    <!-- Welcome banner -->
+    <div class="banner">
+      <p>Good morning 👋</p>
+      <h2>Al-Falah Public School</h2>
+      <p>Welcome back, Md Saif. Here is today's overview of your school.</p>
+      <div class="chips"><span>612 students</span><span>89% attendance</span><span>2 overdue fees</span></div>
+    </div>
+
+    <!-- 4 small cards -->
+    <div class="cards"><div class="card"><div class="icon ic1">🎓</div><div><h3>612</h3><p>Total Students</p></div></div><div class="card"><div class="icon ic2">👨‍🏫</div><div><h3>38</h3><p>Teachers</p></div></div><div class="card"><div class="icon ic3">✅</div><div><h3>89%</h3><p>Attendance</p></div></div><div class="card"><div class="icon ic4">💰</div><div><h3>60%</h3><p>Fees Collected</p></div></div></div>
+
+    <div class="row">
+      <div class="box">
+<h3>Attendance this week</h3>
+<div class="chart"><div style="height:94%">94</div><div style="height:92%">92</div><div style="height:88%">88</div><div style="height:95%">95</div><div style="height:90%">90</div><div style="height:81%">81</div></div>
+<div class="chart-days"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+      </div>
+      <div class="box">
+<h3>Fee collection</h3>
+<p>Paid - 60%</p><div class="progress"><span class="green" style="width:60%"></span></div><p>Due - 20%</p><div class="progress"><span class="yellow" style="width:20%"></span></div><p>Overdue - 20%</p><div class="progress"><span class="red" style="width:20%"></span></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box">
+<h3>Recent students</h3>
+<div class="table-wrap">
+<table>
+<tr><th>Student</th><th>Roll No</th><th>Class</th><th>Fees</th></tr>
+<tr><td><div class="who"><span class="av">AK</span>Ayaan Khan</div></td><td>10A-01</td><td>10-A</td><td><span class="tag green">Paid</span></td></tr>
+<tr><td><div class="who"><span class="av">ZS</span>Zainab Sheikh</div></td><td>10A-02</td><td>10-A</td><td><span class="tag yellow">Due</span></td></tr>
+<tr><td><div class="who"><span class="av">IS</span>Imran Siddiqui</div></td><td>9B-01</td><td>9-B</td><td><span class="tag green">Paid</span></td></tr>
+<tr><td><div class="who"><span class="av">FA</span>Fatima Ansari</div></td><td>9B-02</td><td>9-B</td><td><span class="tag green">Paid</span></td></tr>
+<tr><td><div class="who"><span class="av">ZQ</span>Zeeshan Qureshi</div></td><td>8C-01</td><td>8-C</td><td><span class="tag red">Overdue</span></td></tr>
+</table>
+</div>
+      </div>
+      <div class="box">
+<h3>Upcoming events</h3>
+<div class="event"><div class="date"><b>04</b>Aug</div><div><b>Science Fair</b><p>10:00 AM · Main Hall</p></div></div><div class="event"><div class="date"><b>09</b>Aug</div><div><b>Parent-Teacher Meeting</b><p>09:00 AM · Auditorium</p></div></div><div class="event"><div class="date"><b>14</b>Aug</div><div><b>Independence Day Assembly</b><p>08:30 AM · Ground</p></div></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box">
+<h3>Top performers</h3>
+<div class="event"><span class="av">AK</span><div><b>Ayaan Khan</b><p>Class 10-A</p></div><span class="tag green">A</span></div><div class="event"><span class="av">FA</span><div><b>Fatima Ansari</b><p>Class 9-B</p></div><span class="tag green">A</span></div><div class="event"><span class="av">AM</span><div><b>Ayesha Malik</b><p>Class 8-C</p></div><span class="tag green">A+</span></div><div class="event"><span class="av">MB</span><div><b>Mariam Begum</b><p>Class 9-B</p></div><span class="tag green">A</span></div>
+      </div>
+      <div class="box">
+<h3>Notice board</h3>
+<ul class="notices">
+  <li>📢 Mid-term exam schedule released</li>
+  <li>💰 Term 2 fee date extended to 15 August</li>
+  <li>🏆 Annual Sports Day on 4 August</li>
+  <li>🕌 School closed on 15 August</li>
+</ul>
+      </div>
+    </div>
+
+    <p class="footer">Developed by Md Saif · Al-Falah Public School</p>
+  </div>
+
+</body>
+</html>
