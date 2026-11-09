@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Al-Falah Public School | Management System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- All the CSS (design) is written here -->
+  <style>
+/* ---------- Basic reset ---------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', Arial, sans-serif;
+  background: #eef1fa;
+  color: #1e293b;
+  font-size: 14px;
+}
+
+/* ---------- Sidebar (fixed on the left) ---------- */
+.sidebar {
+  position: fixed; top: 0; left: 0;
+  width: 240px; height: 100%;
+  background: linear-gradient(180deg, #1b2470, #0f1747);
+  color: white;
+  padding: 24px 16px;
+  display: flex; flex-direction: column;
+}
+.brand { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; padding: 0 6px; }
+.logo {
+  width: 42px; height: 42px; border-radius: 12px;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 600; flex-shrink: 0;
+}
+.brand h2 { font-size: 15px; line-height: 1.3; }
+.brand p { font-size: 11px; opacity: 0.65; }
+
+.sidebar a {
+  display: flex; align-items: center; gap: 12px;
+  color: #c9d2ff; text-decoration: none;
+  padding: 12px 14px; border-radius: 12px; margin-bottom: 6px;
+  transition: 0.2s;
+}
+.sidebar a:hover { background: rgba(255, 255, 255, 0.1); color: white; }
+.sidebar a.active {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  box-shadow: 0 8px 18px rgba(79, 70, 229, 0.45);
+}
+.year { margin-top: auto; background: rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 14px; font-size: 12px; color: #c9d2ff; }
+.year b { display: block; color: white; font-size: 13px; }
+
+/* ---------- Main area (pushed right of the sidebar) ---------- */
+.main { margin-left: 240px; padding: 26px 30px 40px; }
+.topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+.topbar h1 { font-size: 26px; }
+.school { color: #64748b; }
+.user {
+  display: flex; align-items: center; gap: 10px;
+  background: white; padding: 6px 16px 6px 6px; border-radius: 30px;
+  box-shadow: 0 4px 14px rgba(30, 42, 120, 0.08); font-weight: 500;
+}
+.av {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: linear-gradient(135deg, #4f46e5, #a855f7);
+  color: white; font-size: 12px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+
+/* ---------- Welcome banner ---------- */
+.banner {
+  background: linear-gradient(120deg, #4f46e5, #7c3aed 60%, #c026d3);
+  color: white; padding: 30px; border-radius: 22px; margin-bottom: 22px;
+  position: relative; overflow: hidden;
+  box-shadow: 0 18px 36px -18px #4f46e5;
+}
+.banner::after {
+  content: ""; position: absolute; right: -50px; top: -60px;
+  width: 230px; height: 230px; border-radius: 50%; background: rgba(255, 255, 255, 0.15);
+}
+.banner h2 { font-size: 28px; margin: 4px 0; }
+.chips { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; position: relative; z-index: 1; }
+.chips span { background: rgba(255, 255, 255, 0.2); padding: 6px 14px; border-radius: 20px; font-size: 12.5px; font-weight: 500; }
+
+/* ---------- Cards (grid = columns in a row) ---------- */
+.cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 22px; }
+.cards.three { grid-template-columns: repeat(3, 1fr); }
+.card, .box {
+  background: white; padding: 20px; border-radius: 20px;
+  box-shadow: 0 10px 28px -18px rgba(30, 42, 120, 0.35);
+}
+.card { display: flex; align-items: center; gap: 14px; transition: 0.2s; }
+.card:hover { transform: translateY(-4px); }
+.card h3 { font-size: 26px; line-height: 1.2; }
+.card p { color: #64748b; font-size: 13px; }
+.icon { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.ic1 { background: #e0e7ff; } .ic2 { background: #dbeafe; } .ic3 { background: #dcfce7; } .ic4 { background: #fef3c7; }
+.box { margin-bottom: 22px; }
+.box h3 { margin-bottom: 16px; font-size: 16px; }
+
+/* ---------- Two columns side by side ---------- */
+.row { display: grid; grid-template-columns: 1.6fr 1fr; gap: 22px; }
+
+/* ---------- Tables ---------- */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e8ecf6; }
+th { color: #64748b; font-size: 12px; text-transform: uppercase; }
+tr:hover td { background: #f6f7ff; }
+.who { display: flex; align-items: center; gap: 10px; font-weight: 500; white-space: nowrap; }
+
+/* ---------- Colored status tags ---------- */
+.tag { padding: 3px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.green { background: #dcfce7; color: #15803d; }
+.yellow { background: #fef3c7; color: #b45309; }
+.red { background: #fee2e2; color: #b91c1c; }
+
+/* ---------- Bar chart (each div is one bar) ---------- */
+.chart { display: flex; align-items: flex-end; gap: 14px; height: 200px; }
+.chart div {
+  flex: 1; background: linear-gradient(#a855f7, #4f46e5);
+  border-radius: 10px 10px 4px 4px; color: white;
+  text-align: center; font-size: 12px; padding-top: 6px;
+}
+.chart-days { display: flex; gap: 14px; margin-top: 6px; text-align: center; color: #64748b; font-size: 12px; }
+.chart-days span { flex: 1; }
+
+/* ---------- Progress bars ---------- */
+.progress { background: #e8ecf6; border-radius: 10px; height: 10px; margin: 4px 0 16px; }
+.progress span { display: block; height: 100%; border-radius: 10px; }
+.progress .green { background: #16a34a; }
+.progress .yellow { background: #f59e0b; }
+.progress .red { background: #dc2626; }
+
+/* ---------- Events / top students list ---------- */
+.event { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid #e8ecf6; }
+.event:last-child { border-bottom: none; }
+.event p { color: #64748b; font-size: 12px; }
+.event .tag { margin-left: auto; }
+.date { width: 48px; height: 48px; border-radius: 12px; background: #e0e7ff; color: #4f46e5; text-align: center; font-size: 11px; padding-top: 6px; flex-shrink: 0; }
+.date b { display: block; font-size: 16px; line-height: 1.1; }
+.notices { list-style: none; }
+.notices li { padding: 12px 0; border-bottom: 1px solid #e8ecf6; }
+.notices li:last-child { border-bottom: none; }
+
+/* ---------- Search bar and buttons ---------- */
+.tools { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.tools input, .tools select { padding: 11px 14px; border: 1px solid #d5dbea; border-radius: 12px; font-family: inherit; background: white; }
+.tools input { flex: 1; min-width: 180px; }
+button {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; border: none;
+  padding: 11px 20px; border-radius: 12px; font-family: inherit; font-weight: 500; cursor: pointer;
+  box-shadow: 0 8px 18px -10px #4f46e5;
+}
+input[type="checkbox"] { width: 18px; height: 18px; }
+
+/* ---------- Teacher cards ---------- */
+.teacher { flex-direction: column; text-align: center; }
+.teacher .av { width: 64px; height: 64px; font-size: 22px; }
+.teacher h4 { margin-top: 6px; }
+
+.footer { text-align: center; color: #64748b; font-size: 12px; margin-top: 10px; }
+
+/* ---------- Mobile / tablet (responsive) ---------- */
+@media (max-width: 800px) {
+  /* sidebar becomes a bottom menu bar like a phone app */
+  .sidebar {
+    top: auto; bottom: 0; width: 100%; height: auto;
+    flex-direction: row; padding: 8px; z-index: 10;
+    border-radius: 20px 20px 0 0;
+  }
+  .brand, .year { display: none; }
+  .sidebar a { flex: 1; flex-direction: column; gap: 2px; padding: 8px 2px; font-size: 10px; margin: 0; text-align: center; }
+  .main { margin-left: 0; padding: 16px 16px 100px; }
+  .cards { grid-template-columns: 1fr 1fr; }
+  .row { grid-template-columns: 1fr; gap: 0; }
+}
+@media (max-width: 500px) {
+  .cards, .cards.three { grid-template-columns: 1fr; }
+  .topbar h1 { font-size: 22px; }
+  .banner h2 { font-size: 22px; }
+}
+
+/* ---------- Extra for the single-page version ---------- */
+html { scroll-behavior: smooth; }
+section { margin-bottom: 40px; scroll-margin-top: 16px; }
+.sec { font-size: 22px; margin-bottom: 16px; }
+@media (max-width: 800px) { section { scroll-margin-top: 0; } }
+
+  </style>
+</head>
+<body>
+
+  <!-- Left sidebar menu (each link jumps to a section below) -->
+  <div class="sidebar">
+    <div class="brand">
+      <div class="logo">A</div>
+      <div><h2>Al-Falah Public School</h2><p>Management Portal</p></div>
+    </div>
+    <a href="#dashboard"><span>🏠</span><span>Dashboard</span></a>
+    <a href="#students"><span>🎓</span><span>Students</span></a>
+    <a href="#attendance"><span>✅</span><span>Attendance</span></a>
+    <a href="#fees"><span>💰</span><span>Fees</span></a>
+    <a href="#teachers"><span>👨‍🏫</span><span>Teachers</span></a>
+    <a href="#timetable"><span>🗓️</span><span>Timetable</span></a>
+    <div class="year"><b>Academic year 2026-27</b>Term 2 · Week 6</div>
+  </div>
+
+  <!-- Main content area -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <h1>School Management UI</h1>
+        <p class="school">Al-Falah Public School</p>
+      </div>
+      <div class="user"><span class="av">MS</span>Md Saif · Admin</div>
+    </div>
+
+    <!-- ===== Dashboard section ===== -->
+    <section id="dashboard">
+      <h2 class="sec">🏠 Dashboard</h2>
+    <!-- Welcome banner -->
+    <div class="banner">
+      <p>Good morning 👋</p>
+      <h2>Al-Falah Public School</h2>
+      <p>Welcome back, Md Saif. Here is today's overview of your school.</p>
+      <div class="chips"><span>612 students</span><span>89% attendance</span><span>2 overdue fees</span></div>
+    </div>
+
+    <!-- 4 small cards -->
+    <div class="cards"><div class="card"><div class="icon ic1">🎓</div><div><h3>612</h3><p>Total Students</p></div></div><div class="card"><div class="icon ic2">👨‍🏫</div><div><h3>38</h3><p>Teachers</p></div></div><div class="card"><div class="icon ic3">✅</div><div><h3>89%</h3><p>Attendance</p></div></div><div class="card"><div class="icon ic4">💰</div><div><h3>60%</h3><p>Fees Collected</p></div></div></div>
+
+    <div class="row">
+      <div class="box">
+<h3>Attendance this week</h3>
+<div class="chart"><div style="height:94%">94</div><div style="height:92%">92</div><div style="height:88%">88</div><div style="height:95%">95</div><div style="height:90%">90</div><div style="height:81%">81</div></div>
+<div class="chart-days"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+      </div>
+      <div class="box">
+<h3>Fee collection</h3>
+<p>Paid - 60%</p><div class="progress"><span class="green" style="width:60%"></span></div><p>Due - 20%</p><div class="progress"><span class="yellow" style="width:20%"></span></div><p>Overdue - 20%</p><div class="progress"><span class="red" style="width:20%"></span></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box">
+<h3>Recent students</h3>
+<div class="table-wrap">
+<table>
+<tr><th>Student</th><th>Roll No</th><th>Class</th><th>Fees</th></tr>
+<tr><td><div class="who"><span class="av">AK</span>Ayaan Khan</div></td><td>10A-01</td><td>10-A</td><td><span class="tag green">Paid</span></td></tr>
+<tr><td><div class="who"><span class="av">ZS</span>Zainab Sheikh</div></td><td>10A-02</td><td>10-A</td><td><span class="tag yellow">Due</span></td></tr>
+<tr><td><div class="who"><span class="av">IS</span>Imran Siddiqui</div></td><td>9B-01</td><td>9-B</td><td><span class="tag green">Paid</span></td></tr>
+<tr><td><div class="who"><span class="av">FA</span>Fatima Ansari</div></td><td>9B-02</td><td>9-B</td><td><span class="tag green">Paid</span></td></tr>
+<tr><td><div class="who"><span class="av">ZQ</span>Zeeshan Qureshi</div></td><td>8C-01</td><td>8-C</td><td><span class="tag red">Overdue</span></td></tr>
+</table>
+</div>
+      </div>
+      <div class="box">
+<h3>Upcoming events</h3>
+<div class="event"><div class="date"><b>04</b>Aug</div><div><b>Science Fair</b><p>10:00 AM · Main Hall</p></div></div><div class="event"><div class="date"><b>09</b>Aug</div><div><b>Parent-Teacher Meeting</b><p>09:00 AM · Auditorium</p></div></div><div class="event"><div class="date"><b>14</b>Aug</div><div><b>Independence Day Assembly</b><p>08:30 AM · Ground</p></div></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="box">
+<h3>Top performers</h3>
+<div class="event"><span class="av">AK</span><div><b>Ayaan Khan</b><p>Class 10-A</p></div><span class="tag green">A</span></div><div class="event"><span class="av">FA</span><div><b>Fatima Ansari</b><p>Class 9-B</p></div><span class="tag green">A</span></div><div class="event"><span class="av">AM</span><div><b>Ayesha Malik</b><p>Class 8-C</p></div><span class="tag green">A+</span></div><div class="event"><span class="av">MB</span><div><b>Mariam Begum</b><p>Class 9-B</p></div><span class="tag green">A</span></div>
+      </div>
+      <div class="box">
+<h3>Notice board</h3>
+<ul class="notices">
+  <li>📢 Mid-term exam schedule released</li>
+  <li>💰 Term 2 fee date extended to 15 August</li>
+  <li>🏆 Annual Sports Day on 4 August</li>
+  <li>🕌 School closed on 15 August</li>
+</ul>
+      </div>
+    </div>
+
+    </section>
+
+    <!-- ===== Students section ===== -->
+    <section id="students">
+      <h2 class="sec">🎓 Students</h2>
+    <!-- Search and filter (design only) -->
+    <div class="tools">
+      <input type="text" placeholder="🔍 Search students...">
+      <select><option>All Classes</option><option>10-A</option><option>9-B</option><option>8-C</option></select>
+      <button>+ Add Student</button>
+    </div>
+
+    <div class="box">
+<div class="table-wrap">
+<table>
+<tr><th>Student</th><th>Roll No</th><th>Class</th><th>Attendance</th><th>Fees</th><th>Grade</th></tr>
+<tr><td><div class="who"><span class="av">AK</span>Ayaan Khan</div></td><td>10A-01</td><td>10-A</td><td>94%</td><td><span class="tag green">Paid</span></td><td><b>A</b></td></tr>
+<tr><td><div class="who"><span class="av">ZS</span>Zainab Sheikh</div></td><td>10A-02</td><td>10-A</td><td>88%</td><td><span class="tag yellow">Due</span></td><td><b>A-</b></td></tr>
+<tr><td><div class="who"><span class="av">IS</span>Imran Siddiqui</div></td><td>9B-01</td><td>9-B</td><td>76%</td><td><span class="tag green">Paid</span></td><td><b>B+</b></td></tr>
+<tr><td><div class="who"><span class="av">FA</span>Fatima Ansari</div></td><td>9B-02</td><td>9-B</td><td>91%</td><td><span class="tag green">Paid</span></td><td><b>A</b></td></tr>
+<tr><td><div class="who"><span class="av">ZQ</span>Zeeshan Qureshi</div></td><td>8C-01</td><td>8-C</td><td>82%</td><td><span class="tag red">Overdue</span></td><td><b>B</b></td></tr>
+<tr><td><div class="who"><span class="av">AM</span>Ayesha Malik</div></td><td>8C-02</td><td>8-C</td><td>97%</td><td><span class="tag green">Paid</span></td><td><b>A+</b></td></tr>
+<tr><td><div class="who"><span class="av">RA</span>Rayyan Ahmed</div></td><td>10A-03</td><td>10-A</td><td>85%</td><td><span class="tag yellow">Due</span></td><td><b>B+</b></td></tr>
+<tr><td><div class="who"><span class="av">MB</span>Mariam Begum</div></td><td>9B-03</td><td>9-B</td><td>93%</td><td><span class="tag green">Paid</span></td><td><b>A</b></td></tr>
+<tr><td><div class="who"><span class="av">HF</span>Hamza Farooqui</div></td><td>8C-03</td><td>8-C</td><td>71%</td><td><span class="tag red">Overdue</span></td><td><b>C+</b></td></tr>
+<tr><td><div class="who"><span class="av">SH</span>Sara Hussain</div></td><td>10A-04</td><td>10-A</td><td>90%</td><td><span class="tag green">Paid</span></td><td><b>A-</b></td></tr>
+</table>
+</div>
+    </div>
+
+    </section>
+
+    <!-- ===== Attendance section ===== -->
+    <section id="attendance">
+      <h2 class="sec">✅ Attendance</h2>
+    <div class="tools">
+      <select><option>Class 10-A</option><option>Class 9-B</option><option>Class 8-C</option></select>
+      <button>Save Attendance</button>
+    </div>
+
+    <!-- Tick the checkbox = Present -->
+    <div class="box">
+<h3>Class 10-A - Today</h3>
+<div class="table-wrap">
+<table>
+<tr><th>Student</th><th>Roll No</th><th>Present</th></tr>
+<tr><td><div class="who"><span class="av">AK</span>Ayaan Khan</div></td><td>10A-01</td><td><input type="checkbox" checked></td></tr>
+<tr><td><div class="who"><span class="av">ZS</span>Zainab Sheikh</div></td><td>10A-02</td><td><input type="checkbox" checked></td></tr>
+<tr><td><div class="who"><span class="av">RA</span>Rayyan Ahmed</div></td><td>10A-03</td><td><input type="checkbox" checked></td></tr>
+<tr><td><div class="who"><span class="av">SH</span>Sara Hussain</div></td><td>10A-04</td><td><input type="checkbox" checked></td></tr>
+</table>
+</div>
+    </div>
+
+    </section>
+
+    <!-- ===== Fees section ===== -->
+    <section id="fees">
+      <h2 class="sec">💰 Fees</h2>
+    <div class="cards three"><div class="card"><div class="icon ic3">✅</div><div><h3>6</h3><p>Paid</p></div></div><div class="card"><div class="icon ic4">⏳</div><div><h3>2</h3><p>Due</p></div></div><div class="card"><div class="icon ic1">⚠️</div><div><h3>2</h3><p>Overdue</p></div></div></div>
+
+    <div class="box">
+<div class="table-wrap">
+<table>
+<tr><th>Student</th><th>Class</th><th>Amount</th><th>Status</th></tr>
+<tr><td><div class="who"><span class="av">AK</span>Ayaan Khan</div></td><td>10-A</td><td>₹ 14,500</td><td><span class="tag green">Paid</span></td></tr>
+<tr><td><div class="who"><span class="av">ZS</span>Zainab Sheikh</div></td><td>10-A</td><td>₹ 14,500</td><td><span class="tag yellow">Due</span></td></tr>
+<tr><td><div class="who"><span class="av">IS</span>Imran Siddiqui</div></td><td>9-B</td><td>₹ 14,500</td><td><span class="tag green">Paid</span></td></tr>
+<tr><td><div class="who"><span class="av">FA</span>Fatima Ansari</div></td><td>9-B</td><td>₹ 14,500</td><td><span class="tag green">Paid</span></td></tr>
+<tr><td><div class="who"><span class="av">ZQ</span>Zeeshan Qureshi</div></td><td>8-C</td><td>₹ 14,500</td><td><span class="tag red">Overdue</span></td></tr>
+<tr><td><div class="who"><span class="av">AM</span>Ayesha Malik</div></td><td>8-C</td><td>₹ 14,500</td><td><span class="tag green">Paid</span></td></tr>
+<tr><td><div class="who"><span class="av">RA</span>Rayyan Ahmed</div></td><td>10-A</td><td>₹ 14,500</td><td><span class="tag yellow">Due</span></td></tr>
+<tr><td><div class="who"><span class="av">MB</span>Mariam Begum</div></td><td>9-B</td><td>₹ 14,500</td><td><span class="tag green">Paid</span></td></tr>
+<tr><td><div class="who"><span class="av">HF</span>Hamza Farooqui</div></td><td>8-C</td><td>₹ 14,500</td><td><span class="tag red">Overdue</span></td></tr>
+<tr><td><div class="who"><span class="av">SH</span>Sara Hussain</div></td><td>10-A</td><td>₹ 14,500</td><td><span class="tag green">Paid</span></td></tr>
+</table>
+</div>
+    </div>
+
+    </section>
+
+    <!-- ===== Teachers section ===== -->
+    <section id="teachers">
+      <h2 class="sec">👨‍🏫 Teachers</h2>
+    <div class="cards three">
+      <div class="card teacher"><span class="av">NJ</span><h4>Nusrat Jahan</h4><p>Mathematics</p><span class="tag green">4 classes</span></div>
+      <div class="card teacher"><span class="av">FA</span><h4>Faisal Ahmed</h4><p>Physics</p><span class="tag green">3 classes</span></div>
+      <div class="card teacher"><span class="av">RS</span><h4>Rubina Sultana</h4><p>English</p><span class="tag green">5 classes</span></div>
+      <div class="card teacher"><span class="av">TA</span><h4>Tariq Alvi</h4><p>Chemistry</p><span class="tag green">3 classes</span></div>
+      <div class="card teacher"><span class="av">SP</span><h4>Shabana Parveen</h4><p>Biology</p><span class="tag green">4 classes</span></div>
+      <div class="card teacher"><span class="av">MI</span><h4>Mohammad Irfan</h4><p>Computer Science</p><span class="tag green">3 classes</span></div>
+    </div>
+
+    </section>
+
+    <!-- ===== Timetable section ===== -->
+    <section id="timetable">
+      <h2 class="sec">🗓️ Timetable</h2>
+    <div class="box">
+<h3>Weekly timetable - Class 10-A</h3>
+<div class="table-wrap">
+<table>
+<tr><th>Time</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th></tr>
+<tr><td>8:30 - 9:15</td><td>Maths</td><td>Physics</td><td>English</td><td>Chemistry</td><td>Biology</td></tr>
+<tr><td>9:15 - 10:00</td><td>Physics</td><td>English</td><td>Chemistry</td><td>Biology</td><td>Comp. Sci</td></tr>
+<tr><td>10:15 - 11:00</td><td>English</td><td>Chemistry</td><td>Biology</td><td>Comp. Sci</td><td>Maths</td></tr>
+<tr><td>11:00 - 11:45</td><td>Chemistry</td><td>Biology</td><td>Comp. Sci</td><td>Maths</td><td>Physics</td></tr>
+<tr><td>11:45 - 12:30</td><td>Biology</td><td>Comp. Sci</td><td>Maths</td><td>Physics</td><td>English</td></tr>
+</table>
+</div>
+    </div>
+
+    </section>
+
+    <p class="footer">Developed by Md Saif · Al-Falah Public School</p>
+  </div>
+
+</body>
+</html>
